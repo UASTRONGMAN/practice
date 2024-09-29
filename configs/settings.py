@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(tu^5ctbq5qi!#p^t#3=k9c%uk=s931e^r@lmyxuguh*3ti)2r'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
 
     #my apps
     'apps.cars',
+    'apps.auto_parks',
 ]
 
 MIDDLEWARE = [
@@ -71,11 +73,11 @@ WSGI_APPLICATION = 'configs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'awdmarch2024',
-        'USER': 'awdmarch2024',
-        'PASSWORD': 'admin',
-        'HOST': 'owu.linkpc.net',
-        'PORT': '3306',
+        'NAME': os.environ.get('MYSQL_DATABASE'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'PORT': os.environ.get('MYSQL_PORT'),
     }
 }
 

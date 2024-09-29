@@ -6,7 +6,8 @@ from apps.cars.models import CarModel
 from apps.cars.serializers import CarSerializer
 
 
-class ListCreateView(GenericAPIView):
+
+class ListView(GenericAPIView):
     def get(self, *args, **kwargs):
         cars = CarModel.objects.all()
         # cars = cars.filter(price__gt=5000)
@@ -25,13 +26,6 @@ class ListCreateView(GenericAPIView):
         serializer = CarSerializer(cars, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-    def post(self, *args, **kwargs):
-        data = self.request.data
-        serializer = CarSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class RetrieveUpdateDestroyView(GenericAPIView):
