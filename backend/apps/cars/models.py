@@ -7,6 +7,7 @@ from core_app.models import BaseModel
 
 from apps.auto_parks.models import AutoParkModel
 from apps.cars.choices import BodyTypeChoice
+from apps.cars.managers import CarManager
 from apps.cars.regex import CarRegex
 
 
@@ -18,3 +19,5 @@ class CarModel(BaseModel):
     price = models.IntegerField(validators=[V.MinValueValidator(1), V.MaxValueValidator(1000000)])
     year = models.IntegerField(validators=[V.MinValueValidator(1900), V.MaxValueValidator(datetime.now().year)])
     auto_park = models.ForeignKey(AutoParkModel, on_delete=models.CASCADE, related_name='cars')
+
+    objects = CarManager()
