@@ -71,3 +71,8 @@ class CarAddPhotoView(UpdateAPIView):
     queryset = CarModel.objects.all()
     http_method_names = ('put',)
 
+    def perform_update(self, serializer):
+        car = self.get_object()
+        car.photo.delete()
+        super().perform_update(serializer)
+

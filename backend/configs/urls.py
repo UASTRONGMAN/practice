@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import include, path
 
 from apps.auth import urls as auth
@@ -11,3 +13,5 @@ urlpatterns = [
     path('users', include(users)),
     path('auth', include(auth)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

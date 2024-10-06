@@ -9,6 +9,7 @@ from apps.auto_parks.models import AutoParkModel
 from apps.cars.choices import BodyTypeChoice
 from apps.cars.managers import CarManager
 from apps.cars.regex import CarRegex
+from apps.cars.services import upload_car_photo
 
 
 class CarModel(BaseModel):
@@ -19,6 +20,6 @@ class CarModel(BaseModel):
     price = models.IntegerField(validators=[V.MinValueValidator(1), V.MaxValueValidator(1000000)])
     year = models.IntegerField(validators=[V.MinValueValidator(1900), V.MaxValueValidator(datetime.now().year)])
     auto_park = models.ForeignKey(AutoParkModel, on_delete=models.CASCADE, related_name='cars')
-    photo = models.ImageField(upload_to='storage', blank=True)
+    photo = models.ImageField(upload_to=upload_car_photo, blank=True)
 
     objects = CarManager()
