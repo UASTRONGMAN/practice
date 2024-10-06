@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_filters',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 
     #my apps
     'core_app',
     'apps.users',
+    'apps.auth',
     'apps.cars',
     'apps.auto_parks',
 ]

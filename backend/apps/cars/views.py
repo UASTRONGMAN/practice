@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.cars.filters import CarFilter
@@ -31,11 +32,13 @@ class ListView(ListAPIView):
     queryset = CarModel.objects.all()
     pagination_class = None
     filterset_class = CarFilter
+    permission_classes = (IsAuthenticated,)
 
 
 
 class RetrieveUpdateDestroyView(GenericAPIView):
     queryset = CarModel.objects.all()
+    permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
         car = self.get_object()
