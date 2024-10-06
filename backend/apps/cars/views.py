@@ -1,11 +1,11 @@
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListAPIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.cars.filters import CarFilter
 from apps.cars.models import CarModel
-from apps.cars.serializers import CarSerializer
+from apps.cars.serializers import CarPhotoSerializer, CarSerializer
 
 #
 # class ListView(GenericAPIView):
@@ -64,3 +64,10 @@ class RetrieveUpdateDestroyView(GenericAPIView):
     def delete(self, *args, **kwargs):
         self.get_object().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class CarAddPhotoView(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CarPhotoSerializer
+    queryset = CarModel.objects.all()
+    http_method_names = ('put',)
+

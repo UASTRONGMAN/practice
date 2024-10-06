@@ -19,5 +19,6 @@ class CarModel(BaseModel):
     price = models.IntegerField(validators=[V.MinValueValidator(1), V.MaxValueValidator(1000000)])
     year = models.IntegerField(validators=[V.MinValueValidator(1900), V.MaxValueValidator(datetime.now().year)])
     auto_park = models.ForeignKey(AutoParkModel, on_delete=models.CASCADE, related_name='cars')
+    photo = models.ImageField(upload_to='storage', blank=True)
 
     objects = CarManager()
