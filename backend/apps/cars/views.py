@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.cars.filters import CarFilter
@@ -65,14 +65,17 @@ class RetrieveUpdateDestroyView(GenericAPIView):
         self.get_object().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CarAddPhotoView(UpdateAPIView):
+class CarAddPhotoView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CarPhotoSerializer
     queryset = CarModel.objects.all()
-    http_method_names = ('put',)
 
-    def perform_update(self, serializer):
+    def put(self, *args, **kwargs):
+        files = self.request.FILES
         car = self.get_object()
-        car.photo.delete()
-        super().perform_update(serializer)
-
+        for index in files:
+            serializer = CarPhotoSerializer(data={'photo': files[index]})
+            serializer.is_valid(raise_exception=True)
+            serializer.save(car=car)
+        car_serializer = CarSerializer(car)
+        return Response(car_serializer.data, status=status.HTTP_200_OK)
