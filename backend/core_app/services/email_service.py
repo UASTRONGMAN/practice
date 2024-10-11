@@ -3,6 +3,9 @@ import os
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
+from core_app.dataclasses.user_dataclass import User
+from core_app.services.jwt_service import ActivateToken, JWTService
+
 
 class EmailService:
     @staticmethod
@@ -16,3 +19,14 @@ class EmailService:
     @classmethod
     def send_test(cls):
         cls.__send_email("armashevska.anna@ukr.net", 'test.html', {}, 'Test Email')
+
+    @classmethod
+    def register(cls, user:User):
+        token = JWTService.create_token(user, ActivateToken)
+        url = f'http://hocalhost:3000/activate/{token}'
+        cls.__send_email(
+            user.email,
+            'register.html',
+            {'name': user.profile.name, 'url': url},
+            'Register Email'
+        )
