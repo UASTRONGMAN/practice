@@ -1,4 +1,5 @@
-from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -42,7 +43,9 @@ class CarListView(ListAPIView):
 class CarRetrieveUpdateDestroyView(GenericAPIView):
     queryset = CarModel.objects.all()
     permission_classes = (IsAuthenticated,)
+    serializer_class = CarSerializer
 
+    @swagger_auto_schema(responses={status.HTTP_200_OK: CarSerializer(), status.HTTP_204_NO_CONTENT: serializers.Serializer()})
     def get(self, *args, **kwargs):
         """
             Get car by id
@@ -88,6 +91,7 @@ class CarAddPhotoView(GenericAPIView):
     serializer_class = CarPhotoSerializer
     queryset = CarModel.objects.all()
 
+    @swagger_auto_schema(responses={status.HTTP_200_OK: CarSerializer()})
     def put(self, *args, **kwargs):
         files = self.request.FILES
         car = self.get_object()

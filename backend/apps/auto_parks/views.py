@@ -1,5 +1,7 @@
-from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.auto_parks.models import AutoParkModel
@@ -16,10 +18,14 @@ class AutoParkListCreateApiView(ListCreateAPIView):
     """
     serializer_class = AutoParksModelSerializer
     queryset = AutoParkModel.objects.all()
+    permission_classes = [IsAuthenticated]
 
 class AutoParkAddCarView(GenericAPIView):
     queryset = AutoParkModel.objects.all()
+    serializer_class = CarSerializer
+    permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(responses={status.HTTP_201_CREATED: AutoParksModelSerializer()})
     def post(self, *args, **kwargs):
         """
             Add car to the auto park
