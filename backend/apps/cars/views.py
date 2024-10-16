@@ -27,7 +27,10 @@ from apps.cars.serializers import CarPhotoSerializer, CarSerializer
 #         serializer = CarSerializer(cars, many=True)
 #         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class ListView(ListAPIView):
+class CarListView(ListAPIView):
+    """
+        Show all cars
+    """
     serializer_class = CarSerializer
     queryset = CarModel.objects.all()
     pagination_class = None
@@ -36,16 +39,22 @@ class ListView(ListAPIView):
 
 
 
-class RetrieveUpdateDestroyView(GenericAPIView):
+class CarRetrieveUpdateDestroyView(GenericAPIView):
     queryset = CarModel.objects.all()
     permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
+        """
+            Get car by id
+        """
         car = self.get_object()
         serializer = CarSerializer(car)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, *args, **kwargs):
+        """
+            Full update car by id
+        """
         data = self.request.data
         car = self.get_object()
         serializer = CarSerializer(car, data=data)
@@ -54,6 +63,9 @@ class RetrieveUpdateDestroyView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, *args, **kwargs):
+        """
+            Partial update car by id
+        """
         data = self.request.data
         car = self.get_object()
         serializer = CarSerializer(car, data=data, partial=True)
@@ -62,10 +74,16 @@ class RetrieveUpdateDestroyView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, *args, **kwargs):
+        """
+            Delete car by id
+        """
         self.get_object().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CarAddPhotoView(GenericAPIView):
+    """
+        Add photos to car by id
+    """
     permission_classes = (IsAuthenticated,)
     serializer_class = CarPhotoSerializer
     queryset = CarModel.objects.all()

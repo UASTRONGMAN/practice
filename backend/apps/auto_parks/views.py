@@ -8,6 +8,12 @@ from apps.cars.serializers import CarSerializer
 
 
 class AutoParkListCreateApiView(ListCreateAPIView):
+    """
+    get:
+        Show all auto parks
+    post:
+        Create a new auto park
+    """
     serializer_class = AutoParksModelSerializer
     queryset = AutoParkModel.objects.all()
 
@@ -15,6 +21,9 @@ class AutoParkAddCarView(GenericAPIView):
     queryset = AutoParkModel.objects.all()
 
     def post(self, *args, **kwargs):
+        """
+            Add car to the auto park
+        """
         data = self.request.data
         serializer = CarSerializer(data=data)
         serializer.is_valid(raise_exception=True)

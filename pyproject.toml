@@ -17,6 +17,7 @@ redis = "^5.1.1"
 django-celery-results = "^2.5.1"
 django-celery-beat = "^2.7.0"
 drf-yasg = "^1.21.7"
+setuptools = "^75.1.0"
 
 
 
