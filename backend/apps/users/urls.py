@@ -4,7 +4,6 @@ from apps.users.views import (
     BanUserView,
     CancelAdminUserView,
     CreateAdminUserView,
-    TestEmailView,
     UnbanUserView,
     UserMeView,
     UsersListCreateView,
@@ -17,5 +16,4 @@ urlpatterns = [
     path('/<int:pk>/unban', UnbanUserView.as_view(), name='unban_user'),
     path('/<int:pk>/create_admin', CreateAdminUserView.as_view(), name='create_admin_user'),
     path('/<int:pk>/cancel_admin', CancelAdminUserView.as_view(), name='cancel_admin_user'),
-    path('/test', TestEmailView.as_view(), name='test_email'),
 ]
