@@ -1,6 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, serializers
-from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -28,7 +28,7 @@ from apps.cars.serializers import CarPhotoSerializer, CarSerializer
 #         serializer = CarSerializer(cars, many=True)
 #         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class CarListView(ListAPIView):
+class CarListView(ListCreateAPIView):
     """
         Show all cars
     """
@@ -36,8 +36,11 @@ class CarListView(ListAPIView):
     queryset = CarModel.objects.all()
     pagination_class = None
     filterset_class = CarFilter
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
+    def perform_create(self, serializer):
+        serializer.save(auto_park_id=1)
+        super().perform_create(serializer)
 
 
 class CarRetrieveUpdateDestroyView(GenericAPIView):

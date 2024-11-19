@@ -9,9 +9,7 @@ const urls = {
         login: auth,
         socket: `${auth}/socket`
     },
-    cars:{
-        cars: cars
-    }
+    cars
 }
 
 export {

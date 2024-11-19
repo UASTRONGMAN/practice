@@ -1,12 +1,15 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
 import {authService} from "../services/authService";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const {handleSubmit, register} = useForm();
+    const navigate = useNavigate();
 
     const submit = async (user) => {
         await authService.login(user)
+        navigate('/cars')
     }
 
     return (

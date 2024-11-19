@@ -6,7 +6,8 @@ const baseURL = 'ws://localhost/api'
 const socketService = async () => {
     const {data: {token}} = await authService.getSocketToken();
     return {
-        chat: (room)=> new W3cwebsocket(`${baseURL}/chat/${room}/?token=${token}`)
+        chat: (room)=> new W3cwebsocket(`${baseURL}/chat/${room}/?token=${token}`),
+        cars: ()=> new W3cwebsocket(`${baseURL}/cars/?token=${token}`)
     }
 }
 
